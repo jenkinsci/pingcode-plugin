@@ -26,7 +26,7 @@ Commit message and pull request title|Supports bind to multiple `#IDENTIFIER` sp
 
 ### Manual Install
 
-1. Download worktile.hpi from [Worktile jenkins plugins release page](http://archives.jenkins-ci.org/plugins/worktile/latest/worktile.hpi).
+1. Download worktile.hpi from [worktile jenkins plugins archive url](http://archives.jenkins-ci.org/plugins/worktile/latest/worktile.hpi).
 2. Login to your Jenkins server.
 3. Navigate to the Plugin Manager.
 4. Select the "Advanced" tab and navigate to the Upload Plugin, upload worktile.hpi file.
