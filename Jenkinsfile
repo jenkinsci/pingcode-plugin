@@ -2,7 +2,7 @@ if (JENKINS_URL == 'https://ci.jenkins.io/') {
     def configurations = [
         [ platform: "linux", jdk: "8", jenkins: null ],
     ]
-    buildPlugin(configurations: configurations, timeout: 180, useAci: true)
+    buildPlugin(configurations: configurations, timeout: 180, useContainerAgent: true)
     return
 }
 
