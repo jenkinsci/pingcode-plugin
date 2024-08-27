@@ -94,7 +94,7 @@ public class WorkItemResolver {
         wtLogger.info("SCM change-sets:");
         for (final Object changeLogSet : changeLogSets) {
             for (final Object set : (ChangeLogSet<? extends Entry>) changeLogSet) {
-                final String msg = ((Entry) set).getMsg();
+                final String msg = ((Entry) set).getMsgAnnotated();
                 if (msg != null) {
                     wtLogger.info(msg);
                     isChangeSetsExisted = true;
