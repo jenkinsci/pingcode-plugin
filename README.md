@@ -2,18 +2,18 @@
 
 ## About PingCode Plugin
 
- PingCode Plugin is an open source Jenkins plugin that can connect your builds and deployments with your Agile management in PingCode. With this simple but powerful tool, you will keep updates about what happened on Jenkins, your builds and deployments, associated with your user stories, tasks and defects in real-time without leaving PingCode.
+ PingCode Plugin is an open source Jenkins plugin that can connect your builds and deployments with your Projects in PingCode. With this simple but powerful tool, you will keep updates about what happened on Jenkins, your builds and deployments, associated with your user stories, tasks and defects in real-time without leaving PingCode.
 
 ## Usage with PingCode
 
-### Using PingCode `IDENTIFIER`
+### Using PingCode `ID`
 
-Using `#IDENTIFIER`in your commit messages, branch names and pull request titles, then the Jenkins plugin will automatically connect related builds and deployments when the job is running. As a result, team members will find the builds/deployments with related work items. `IDENTIFIER` is a unique identifier of a work item which can be found in PingCode at the top-left corner in its popup window.
+Using `#ID`in your commit messages, branch names and pull request titles, then the Jenkins plugin will automatically connect related builds and deployments when the job is running. As a result, team members will find the builds/deployments with related work items. `ID` is a unique identifier of a work item which can be found in PingCode at the top-left corner in its popup window.
 
 | Category                              | Syntax                                                  | Example                                    |
 | ------------------------------------- | ------------------------------------------------------- | ------------------------------------------ |
-| Branch name                           | Supports bind to multiple `#IDENTIFIER` split "/".      | terry/#PLM-100/#PLM-101                    |
-| Commit message and pull request title | Supports bind to multiple `#IDENTIFIER` split by space. | fix(doc): #PLM-100 #PLM-101 update the doc |
+| Branch name                           | Supports bind to multiple `#ID` split "/".      | terry/#PLM-100/#PLM-101                    |
+| Commit message and pull request title | Supports bind to multiple `#ID` split by space. | fix(doc): #PLM-100 #PLM-101 update the doc |
 
 ## Install
 
@@ -37,14 +37,12 @@ Using `#IDENTIFIER`in your commit messages, branch names and pull request titles
 ### Create PingCode REST API App
 
 1. Login to PingCode.
-2. On the left navigation bar of each page > Product > Backstage management > Credential management.
-3. Click "New application".
+2. Go to "Admin console > Apps > Credentials" page.
+3. Click "New".
 4. Enter the following information:
-   - Application name.
+   - App name.
    - Authentication method - `Client Credentials`.
-   - Permission - The range of data that can be accessed. Give `构建` and `发布` read and write permission.
-
-    ![JenkinsPluginSetting](https://ftp.bmp.ovh/imgs/2020/09/dc3f6a0c6ba32d06.png)
+   - Permission - The range of data that can be accessed. Give `DevOps data integration: Build` and `DevOps data integration: Delivery` read and write permission.
 5. Copy Client ID and Client Secret.
 
 ### Configure Plugin
@@ -90,7 +88,7 @@ The Jenkins plugin supports two styles of Jenkins items: `Freestyle project` and
       - `Specified identifiers` - Optional. list of work item identifiers. for example `PLM-100,PLM-101`. If it is empty then the command will get the work item identifiers in the SCM.
                ![specified identifiers](https://s1.ax1x.com/2022/05/17/O4XHij.png)
 
-  Finally, save these configurations. When the build is triggered, it will post the build information to PingCode. If there is a PingCode `#IDENTIFIER` in branch name, commit message or pull request title, you will get views in PingCode agile project about what happening on build.
+  Finally, save these configurations. When the build is triggered, it will post the build information to PingCode. If there is a PingCode `#ID` in branch name, commit message or pull request title, you will get views in PingCode agile project about what happening on build.
 
 ##### Send deployment information
 
@@ -104,19 +102,20 @@ The Jenkins plugin supports two styles of Jenkins items: `Freestyle project` and
 
        ![YbTMt0.png](https://s1.ax1x.com/2022/05/17/O4jKFH.png)
 
-  Finally, save these configurations. When the deployment is triggered, it will post the deployment information to PingCode. If there is a PingCode `#IDENTIFIER` in branch name, commit message or pull request title, you will get views in PingCode agile project about what happening on deployment.
+  Finally, save these configurations. When the deployment is triggered, it will post the deployment information to PingCode. If there is a PingCode `#ID` in branch name, commit message or pull request title, you will get views in PingCode agile project about what happening on deployment.
 
 #### Pipeline Project
 
 ##### Send build information
 
-  This is an example snippet of a very simple "build" stage set up in a Jenkinsfile. When the pipeline is triggered, it will post the build information to PingCode. If there is a PingCode `#IDENTIFIER` in branch name, commit message or pull request title, you will get views in PingCode agile project about what happening on build.
+  This is an example snippet of a very simple "build" stage set up in a Jenkinsfile. When the pipeline is triggered, it will post the build information to PingCode. If there is a PingCode `#ID` in branch name, commit message or pull request title, you will get views in PingCode agile project about what happening on build.
 
   ``` syntaxhighlighter-pre
     node {
         def summaryMessage = "Summary message"
 
         try {
+            def scmVars = checkout scm
             sh "printenv"
             summaryMessage = "Great, build successfully."
         }
@@ -147,11 +146,12 @@ The Jenkins plugin supports two styles of Jenkins items: `Freestyle project` and
 
 ##### Send deployment information
 
-  Below is an example of a very simple "deployment" stage set up in a Jenkinsfile. When the pipeline is triggered, it will post the deployment information to PingCode. If there is a PingCode `#IDENTIFIER` in branch name, commit message or pull request title, you will get views in PingCode agile project about what happening on deployment.
+  Below is an example of a very simple "deployment" stage set up in a Jenkinsfile. When the pipeline is triggered, it will post the deployment information to PingCode. If there is a PingCode `#ID` in branch name, commit message or pull request title, you will get views in PingCode agile project about what happening on deployment.
 
 ```syntaxhighlighter-pre
     node {
         try {
+            def scmVars = checkout scm
             sh "printenv"
         }
         catch(e) {
